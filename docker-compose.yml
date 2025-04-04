@@ -1,0 +1,35 @@
+services:
+  bot-mysql:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PWD}
+      MYSQL_DATABASE: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PWD}
+    ports:
+      - ${DOCKER_MYSQL_PORT_MAPPING}
+    volumes:
+      - bot_mysql_data:/var/lib/mysql
+
+  bot-app:
+    build: ./
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:${MYSQL_PORT}/${MYSQL_DB}
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PWD}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE}
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h bot-mysql -u root --password=${MYSQL_ROOT_PWD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+    ports:
+      - ${DOCKER_SPRING_PORT_MAPPING}
+    depends_on:
+      - bot-mysql
+
+volumes:
+  bot_mysql_data:
