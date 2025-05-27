@@ -22,7 +22,7 @@ public class SteelCodeBotApplication {
 
     @Bean
     public GatewayDiscordClient gatewayDiscordClient() {
-        return DiscordClientBuilder.create("MTM1NzA4NjAxNDAzNTk4NDU0NA.G1al6z.85szE5-kqvIQuhJXYbpVXLK50f_Q_Ds0nLzfXA").build()
+        return DiscordClientBuilder.create(TOKEN).build()
                 .gateway()
                 .setInitialPresence(ignore -> ClientPresence.online(ClientActivity.watching( "como programa SteelCodeTeam")))
                 .login()
