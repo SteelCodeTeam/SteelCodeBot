@@ -1,0 +1,12 @@
+{
+  "name": "how_to_report",
+  "description": "Simple guide to report a bug or doing suggestion!",
+  "options": [
+    {
+      "name": "user",
+      "description": "User",
+      "type": 6,
+      "required": true
+    }
+  ]
+}
